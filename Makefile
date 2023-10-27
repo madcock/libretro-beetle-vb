@@ -320,6 +320,28 @@ else ifeq ($(platform), gcw0)
    SHARED := -shared -Wl,--no-undefined -Wl,--version-script=link.T
    FLAGS += -ffast-math -march=mips32 -mtune=mips32r2 -mhard-float
 
+# SF2000
+else ifeq ($(platform), sf2000)
+	TARGET := $(TARGET_NAME)_libretro_$(platform).a
+	MIPS=/opt/mips32-mti-elf/2019.09-03-2/bin/mips-mti-elf-
+	# MIPS=EMIT_EXT_INS=1 /home/icemano/x-tools/mipsel-unknown-elf/bin/mips-mti-elf-
+	CC = $(MIPS)gcc
+	CXX = $(MIPS)g++
+	AR = $(MIPS)ar
+	CFLAGS =-EL -march=mips32 -mtune=mips32 -msoft-float -ffast-math
+	CFLAGS+=-G0 -mno-abicalls -fno-pic
+	# -ffreestanding
+	CFLAGS+=-I../..
+	CFLAGS+=-DSF2000 -DHAVE_STRL
+	CFLAGS+=-O2 -DNDEBUG -DFRONTEND_SUPPORTS_RGB565 -DWANT_16BPP
+	#-D_CRT_SECURE_NO_DEPRECATE
+	CXXFLAGS=$(CFLAGS) -fno-use-cxa-atexit
+	STATIC_LINKING = 1
+	DEBUG = 0
+	FRONTEND_SUPPORTS_RGB565 = 1
+	NEED_BPP = 16
+	NEED_BLIP = 1
+
 # Windows MSVC 2010 x64
 else ifeq ($(platform), windows_msvc2010_x64)
 	CC  = cl.exe

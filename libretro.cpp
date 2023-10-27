@@ -2326,7 +2326,11 @@ bool retro_load_game(const struct retro_game_info *info)
       int y;
       for(y = 0; y < 2; y++)
       {
+#if !defined(SF2000)
          Blip_Buffer_set_sample_rate(&sbuf[y], 44100, 50);
+#else
+         Blip_Buffer_set_sample_rate(&sbuf[y], 11025, 50);
+#endif
          Blip_Buffer_set_clock_rate(&sbuf[y], (long)(VB_MASTER_CLOCK / 4));
          Blip_Buffer_bass_freq(&sbuf[y], 20);
       }
@@ -2425,7 +2429,11 @@ static void update_geometry(unsigned width, unsigned height)
 
    memset(&info, 0, sizeof(info));
    info.timing.fps            = MEDNAFEN_CORE_TIMING_FPS;
+#if !defined(SF2000)
    info.timing.sample_rate    = 44100;
+#else
+   info.timing.sample_rate    = 11025;
+#endif
    info.geometry.base_width   = width;
    info.geometry.base_height  = height;
    info.geometry.max_width    = MEDNAFEN_CORE_GEOMETRY_MAX_W;
@@ -2504,7 +2512,11 @@ void retro_get_system_av_info(struct retro_system_av_info *info)
 {
    memset(info, 0, sizeof(*info));
    info->timing.fps            = MEDNAFEN_CORE_TIMING_FPS;
+#if !defined(SF2000)
    info->timing.sample_rate    = 44100;
+#else
+   info->timing.sample_rate    = 11025;
+#endif
    info->geometry.base_width   = MEDNAFEN_CORE_GEOMETRY_BASE_W;
    info->geometry.base_height  = MEDNAFEN_CORE_GEOMETRY_BASE_H;
    info->geometry.max_width    = MEDNAFEN_CORE_GEOMETRY_MAX_W;
